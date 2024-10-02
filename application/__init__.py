@@ -7,6 +7,11 @@ from flask_login import LoginManager
 from .models import db, Admin
 from .seeds import seed_commands
 from .config import Config
+from .api.workshop_type import workshop_types
+from .api.workshops import workshops
+from .api.pages import pages
+from .api.content import contents
+from .api.clients import clients
 
 User = Admin
 application = Flask(__name__, static_folder="../react-vite/dist", static_url_path="/")
@@ -26,7 +31,13 @@ application.cli.add_command(seed_commands)
 
 application.config.from_object(Config)
 
-db.init_application(application)
+application.register_blueprint(workshop_types, url_prefix="/api/workshopTypes")
+application.register_blueprint(workshops, url_prefix="/api/workshops")
+application.register_blueprint(pages, url_prefix="/api/pages")
+application.register_blueprint(contents, url_prefix="/api/content")
+application.register_blueprint(clients, url_prefix="/api/clients")
+
+db.init_app(application)
 Migrate(application, db)
 
 # Application Security

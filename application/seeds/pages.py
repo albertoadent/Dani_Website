@@ -1,0 +1,26 @@
+from datetime import datetime
+from flask import Flask
+from application.models import db, Page, environment, SCHEMA
+from sqlalchemy.sql import text
+
+
+def seed_pages():
+    page1 = Page(name="Main")
+    page2 = Page(name="Secondary")
+    page3 = Page(name="Alt Main")
+    page4 = Page(name="Alt Secondary")
+
+    db.session.add_all([page1, page2, page3, page4])
+
+    db.session.commit()
+
+
+def undo_pages():
+    if environment == "production":
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.Pages RESTART IDENTITY CASCADE;"
+        )
+    else:
+        db.session.execute(text("DELETE FROM Pages"))
+
+    db.session.commit()

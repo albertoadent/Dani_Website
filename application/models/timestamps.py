@@ -1,5 +1,5 @@
 from .db import db
-import datetime
+from datetime import datetime
 
 
 class Timestamps:

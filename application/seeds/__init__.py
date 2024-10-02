@@ -1,6 +1,13 @@
 from flask.cli import AppGroup
-from app.models.db import db, environment, SCHEMA
-
+from application.models.db import db, environment, SCHEMA
+from .admins import seed_admins, undo_admins
+from .workshop_types import seed_workshop_types,undo_workshop_types
+from .locations import seed_locations,undo_locations
+from .clients import seed_clients,undo_clients
+from .workshops import seed_workshops, undo_workshops
+from .templates import seed_templates, undo_templates
+from .pages import seed_pages, undo_pages
+from .content import seed_contents,undo_contents
 # Creates a seed group to hold our commands
 # So we can type `flask seed --help`
 seed_commands = AppGroup('seed')
@@ -14,13 +21,34 @@ def seed():
         # command, which will  truncate all tables prefixed with 
         # the schema name (see comment in users.py undo_users function).
         # Make sure to add all your other model's undo functions below
-        pass
-    pass
+        undo_admins()
+        undo_workshop_types()
+        undo_locations()
+        undo_clients()
+        undo_workshops()
+        undo_templates()
+        undo_pages()
+        undo_contents()
+    seed_admins()
+    seed_workshop_types()
+    seed_locations()
+    seed_clients()
+    seed_workshops()
+    seed_templates()
+    seed_pages()
+    seed_contents()
     # Add other seed functions here
 
 
 # Creates the `flask seed undo` command
 @seed_commands.command('undo')
 def undo():
-    pass
+    undo_admins()
+    undo_workshop_types()
+    undo_locations()
+    undo_clients()
+    undo_workshops()
+    undo_templates()
+    undo_pages()
+    undo_contents()
     # Add other undo functions here
