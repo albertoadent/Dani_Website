@@ -18,3 +18,15 @@ class Timestamps:
                 "hour": attribute.hour,
                 "minute": attribute.minute,
             }
+
+    @property
+    def created_at_iso(self):
+        if isinstance(self.created_at, datetime):
+            return self.created_at.strftime("%Y-%m-%dT%H:%M:%S") + "Z"
+        return None
+
+    @property
+    def updated_at_iso(self):
+        if isinstance(self.updated_at, datetime):
+            return self.updated_at.strftime("%Y-%m-%dT%H:%M:%S") + "Z"
+        return None

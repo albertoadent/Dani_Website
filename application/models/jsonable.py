@@ -29,7 +29,7 @@ def get_attributes(self):
             ]
         )
     )
-    return attributes
+    return [*attributes, "created_at_iso", "updated_at_iso"]
 
 
 def get_attributes_only(self):
