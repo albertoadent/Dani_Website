@@ -41,9 +41,9 @@ p = {"methods": ["POST"]}
 def post_content():
     data = request.form
     res = validate(
-        {"header": str, "subHeader": str, "text": str, "pageId": str},
+        {"header": str, "subHeader": str, "text": str, "pageId": str, "linkTo": str},
         dict(data),
-        ["header", "subHeader", "text"],
+        ["header", "subHeader", "text", "linkTo"],
     )
     file = request.files.get("file")
     if res:
@@ -59,6 +59,7 @@ def post_content():
         text=data.get("text"),
         image_url=urlObj["url"],
         page_id=int(data["pageId"]),
+        link_to=data.get("linkTo"),
     )
     db.session.add(content)
     db.session.commit()
@@ -76,9 +77,9 @@ pu = {"methods": ["PUT"]}
 def put_content(content_id):
     data = request.form
     res = validate(
-        {"header": str, "subHeader": str, "text": str},
+        {"header": str, "subHeader": str, "text": str, "linkTo": str},
         dict(data),
-        ["header", "subHeader", "text"],
+        ["header", "subHeader", "text", "linkTo"],
     )
     if res:
         return res
@@ -101,6 +102,7 @@ def put_content(content_id):
     content.header = data.get("header") or content.header
     content.text = data.get("text") or content.text
     content.sub_header = data.get("subHeader") or content.sub_header
+    content.link_to = data.get("linkTo") or content.link_to
     db.session.commit()
     return Content.query.get(content_id).to_json()
 

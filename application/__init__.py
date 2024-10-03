@@ -12,6 +12,7 @@ from .api.workshops import workshops
 from .api.pages import pages
 from .api.content import contents
 from .api.clients import clients
+from .api.auth_routes import auth_routes
 
 User = Admin
 application = Flask(__name__, static_folder="../react-vite/dist", static_url_path="/")
@@ -30,7 +31,7 @@ def load_user(id):
 application.cli.add_command(seed_commands)
 
 application.config.from_object(Config)
-
+application.register_blueprint(auth_routes, url_prefix='/api/auth')
 application.register_blueprint(workshop_types, url_prefix="/api/workshopTypes")
 application.register_blueprint(workshops, url_prefix="/api/workshops")
 application.register_blueprint(pages, url_prefix="/api/pages")

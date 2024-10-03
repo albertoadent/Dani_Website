@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    
+    --background: #a9c08b;
+    
+    --foreground: #296e29;
+    
+    --card: #526e59;
+    
+    --popover: #23233a;
+    
+    --popover-foreground: #c4f1ff;
+    
+    --primary: #aeec91;
+    
+    --primary-foreground: #0d3d0b;
+    
+    --secondary: #9ab43c;
+    
+    --secondary-foreground: #755232;
+    
+    --muted: #485e43a4;
+    
+    --muted-foreground: #fdfdfd93;
+    
+    --accent: #d7a9f1c4;
+    
+    --accent-foreground: #1a1a2e;
+    
+    --destructive: #e74c3c;
+    
+    --destructive-foreground: #ffffff;
+    
+    --border: #121221;
+    
+    --input: #4b492c;
+    
+    --ring: #59b6aa;
+    
+    --radius: 0.5rem;
+    
+    --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    
+    --card-foreground: #c4ffce;
+  }
+}
+
+@layer utilities {
+  .text-secondary-foreground {
+    color: var(--secondary-foreground);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  input {
+    @apply bg-input text-secondaryForeground rounded-lg p-2 border-border;
+  }
+  select {
+    @apply bg-input text-secondaryForeground rounded-lg p-2 border-border;
+  }
+  text-area {
+    @apply bg-input text-secondaryForeground rounded-lg p-2 border-border;
+  }
+}

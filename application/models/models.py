@@ -169,6 +169,7 @@ class Content(Model, *CustomModelWithoutId):
     sub_header = db.Column(db.String, nullable=True)
     text = db.Column(db.String, nullable=True)
     image_url = db.Column(db.String, nullable=True)
+    link_to=db.Column(db.String, nullable=True)
     page_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("Pages.id")))
 
     page = db.relationship("Page", back_populates="content")
