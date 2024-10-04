@@ -175,13 +175,16 @@ def upgrade():
     )
     # ### end Alembic commands ###
     if environment == "production":
-        op.execute(f"ALTER TABLE artists SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE genres SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE albums SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE playlists SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE songs SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE likes SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE playlist_songs SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE Admins SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE Affirmations SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE WorkshopTypes SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE Locations SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE Workshops SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE Templates SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE Pages SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE Contents SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE Clients SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE ClientUsers SET SCHEMA {SCHEMA};")
 
 
 def downgrade():
