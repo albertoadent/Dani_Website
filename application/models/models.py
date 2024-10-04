@@ -50,7 +50,7 @@ class WorkshopType(*CustomModel):
     price = db.Column(db.Float, nullable=False)
     time_frame = db.Column(db.Float, nullable=False)
 
-    workshops = db.relationship("Workshop", back_populates="type")
+    workshops = db.relationship("Workshop", back_populates="workshop_type")
 
 
 class Location(*CustomModel):
@@ -73,7 +73,7 @@ class Workshop(*CustomModel):
     )
     client_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("clients.id")))
 
-    type = db.relationship("WorkshopType", back_populates="workshops")
+    workshop_type = db.relationship("WorkshopType", back_populates="workshops")
     location = db.relationship("Location")
     client = db.relationship("Client", back_populates="workshops")
 
