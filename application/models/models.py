@@ -9,8 +9,8 @@ from datetime import datetime, timedelta
 Model = db.Model
 
 
-CustomModel = (Model, Timestamps, ID, JSONable)
-CustomUserModel = (Model, UserMixin, Timestamps, ID, JSONable)
+CustomModel = (Model, Timestamps, JSONable)
+CustomUserModel = (Model, UserMixin, Timestamps, JSONable)
 CustomModelWithoutId = (Timestamps, JSONable)
 
 
@@ -21,6 +21,7 @@ The website will only support logins for those that can edit the website
 
 class Admin(*CustomUserModel):
     __tablename__ = "admins"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     username = db.Column(db.String, unique=True, nullable=False)
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
@@ -45,6 +46,7 @@ The Website will mainly offer workshops that can be scheduled
 
 class WorkshopType(*CustomModel):
     __tablename__ = "workshop_types"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     type = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=True)
     price = db.Column(db.Float, nullable=False)
@@ -55,6 +57,7 @@ class WorkshopType(*CustomModel):
 
 class Location(*CustomModel):
     __tablename__ = "locations"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     address = db.Column(db.String, nullable=False)
     city = db.Column(db.String, nullable=False)
     state = db.Column(db.String, nullable=False)
@@ -63,6 +66,7 @@ class Location(*CustomModel):
 
 class Workshop(*CustomModel):
     __tablename__ = "workshops"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
     workshop_type_id = db.Column(
@@ -145,11 +149,13 @@ The name of the Template will be the same as the name of the component on the fr
 
 class Template(*CustomModel):
     __tablename__ = "templates"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     name = db.Column(db.String, nullable=False)
 
 
 class Page(*CustomModel):
     __tablename__ = "pages"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     is_public = db.Column(db.Boolean, nullable=False, default=False)
     name = db.Column(db.String, nullable=False)
     template_id = db.Column(
@@ -184,6 +190,7 @@ def gen_content_index(page_id):
 
 class Content(Model, *CustomModelWithoutId):
     __tablename__ = "contents"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     id = db.Column(db.String, primary_key=True, unique=True, nullable=False)
     header = db.Column(db.String, nullable=True)
     sub_header = db.Column(db.String, nullable=True)
@@ -208,11 +215,13 @@ class Content(Model, *CustomModelWithoutId):
 
 class Affirmation(*CustomModel):
     __tablename__ = "affirmations"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     affirmation = db.Column(db.String, nullable=False)
 
 
 class Client(*CustomModel):
     __tablename__ = "clients"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     first_name = db.Column(db.String, nullable=True)
     last_name = db.Column(db.String, nullable=True)
     phone_number = db.Column(db.Integer, nullable=False)
@@ -231,6 +240,7 @@ class Client(*CustomModel):
 
 class ClientUser(*CustomUserModel):
     __tablename__ = "client_users"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     username = db.Column(db.String, unique=True, nullable=False)
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
