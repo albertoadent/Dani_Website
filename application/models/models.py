@@ -66,12 +66,16 @@ class Workshop(*CustomModel):
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
     workshop_type_id = db.Column(
-        db.Integer, db.ForeignKey(add_prefix_for_prod("workshop_types.id"))
+        db.Integer,
+        db.ForeignKey(add_prefix_for_prod("workshop_types.id")),
+        nullable=False,
     )
     location_id = db.Column(
-        db.Integer, db.ForeignKey(add_prefix_for_prod("locations.id"))
+        db.Integer, db.ForeignKey(add_prefix_for_prod("locations.id")), nullable=False
     )
-    client_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("clients.id")))
+    client_id = db.Column(
+        db.Integer, db.ForeignKey(add_prefix_for_prod("clients.id")), nullable=False
+    )
 
     workshop_type = db.relationship("WorkshopType", back_populates="workshop_instances")
     location = db.relationship("Location")
@@ -145,7 +149,7 @@ class Page(*CustomModel):
     is_public = db.Column(db.Boolean, nullable=False, default=False)
     name = db.Column(db.String, nullable=False)
     template_id = db.Column(
-        db.Integer, db.ForeignKey(add_prefix_for_prod("templates.id"))
+        db.Integer, db.ForeignKey(add_prefix_for_prod("templates.id")), nullable=False
     )
 
     template = db.relationship("Template")
@@ -182,7 +186,9 @@ class Content(Model, *CustomModelWithoutId):
     text = db.Column(db.String, nullable=True)
     image_url = db.Column(db.String, nullable=True)
     link_to = db.Column(db.String, nullable=True)
-    page_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("pages.id")))
+    page_id = db.Column(
+        db.Integer, db.ForeignKey(add_prefix_for_prod("pages.id")), nullable=False
+    )
 
     page = db.relationship("Page", back_populates="content")
 
@@ -212,7 +218,7 @@ class Client(*CustomModel):
     )
 
     location_id = db.Column(
-        db.Integer, db.ForeignKey(add_prefix_for_prod("locations.id"))
+        db.Integer, db.ForeignKey(add_prefix_for_prod("locations.id")), nullable=False
     )
 
     location = db.relationship("Location")
@@ -227,9 +233,11 @@ class ClientUser(*CustomUserModel):
     email = db.Column(db.String, nullable=False)
     hashed_password = db.Column(db.String(255), nullable=False)
 
-    client_id = db.Column(db.Integer, db.ForeignKey("clients.id"))
+    client_id = db.Column(
+        db.Integer, db.ForeignKey(add_prefix_for_prod("clients.id")), nullable=False
+    )
     location_id = db.Column(
-        db.Integer, db.ForeignKey(add_prefix_for_prod("locations.id"))
+        db.Integer, db.ForeignKey(add_prefix_for_prod("locations.id")), nullable=False
     )
 
     preferred_location = db.relationship("Location")

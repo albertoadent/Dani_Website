@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 91c01551e080
+Revision ID: a28d716eddbe
 Revises:
-Create Date: 2024-10-04 02:38:46.490567
+Create Date: 2024-10-04 03:53:50.148094
 
 """
 
@@ -15,7 +15,7 @@ SCHEMA = os.environ.get("SCHEMA")
 
 
 # revision identifiers, used by Alembic.
-revision = "91c01551e080"
+revision = "a28d716eddbe"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -74,20 +74,6 @@ def upgrade():
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
-        "pages",
-        sa.Column("created_at", sa.DateTime(), nullable=False),
-        sa.Column("updated_at", sa.DateTime(), nullable=False),
-        sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
-        sa.Column("is_public", sa.Boolean(), nullable=False),
-        sa.Column("name", sa.String(), nullable=False),
-        sa.Column("template_id", sa.Integer(), nullable=True),
-        sa.ForeignKeyConstraint(
-            ["template_id"],
-            ["templates.id"],
-        ),
-        sa.PrimaryKeyConstraint("id"),
-    )
-    op.create_table(
         "clients",
         sa.Column("created_at", sa.DateTime(), nullable=False),
         sa.Column("updated_at", sa.DateTime(), nullable=False),
@@ -101,10 +87,24 @@ def upgrade():
             sa.Enum("call", "text", "email", name="preferred_type"),
             nullable=True,
         ),
-        sa.Column("location_id", sa.Integer(), nullable=True),
+        sa.Column("location_id", sa.Integer(), nullable=False),
         sa.ForeignKeyConstraint(
             ["location_id"],
             ["locations.id"],
+        ),
+        sa.PrimaryKeyConstraint("id"),
+    )
+    op.create_table(
+        "pages",
+        sa.Column("created_at", sa.DateTime(), nullable=False),
+        sa.Column("updated_at", sa.DateTime(), nullable=False),
+        sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
+        sa.Column("is_public", sa.Boolean(), nullable=False),
+        sa.Column("name", sa.String(), nullable=False),
+        sa.Column("template_id", sa.Integer(), nullable=False),
+        sa.ForeignKeyConstraint(
+            ["template_id"],
+            ["templates.id"],
         ),
         sa.PrimaryKeyConstraint("id"),
     )
@@ -118,8 +118,8 @@ def upgrade():
         sa.Column("last_name", sa.String(), nullable=False),
         sa.Column("email", sa.String(), nullable=False),
         sa.Column("hashed_password", sa.String(length=255), nullable=False),
-        sa.Column("client_id", sa.Integer(), nullable=True),
-        sa.Column("location_id", sa.Integer(), nullable=True),
+        sa.Column("client_id", sa.Integer(), nullable=False),
+        sa.Column("location_id", sa.Integer(), nullable=False),
         sa.ForeignKeyConstraint(
             ["client_id"],
             ["clients.id"],
@@ -141,7 +141,7 @@ def upgrade():
         sa.Column("text", sa.String(), nullable=True),
         sa.Column("image_url", sa.String(), nullable=True),
         sa.Column("link_to", sa.String(), nullable=True),
-        sa.Column("page_id", sa.Integer(), nullable=True),
+        sa.Column("page_id", sa.Integer(), nullable=False),
         sa.ForeignKeyConstraint(
             ["page_id"],
             ["pages.id"],
@@ -156,9 +156,9 @@ def upgrade():
         sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
         sa.Column("start_date", sa.DateTime(), nullable=False),
         sa.Column("end_date", sa.DateTime(), nullable=False),
-        sa.Column("workshop_type_id", sa.Integer(), nullable=True),
-        sa.Column("location_id", sa.Integer(), nullable=True),
-        sa.Column("client_id", sa.Integer(), nullable=True),
+        sa.Column("workshop_type_id", sa.Integer(), nullable=False),
+        sa.Column("location_id", sa.Integer(), nullable=False),
+        sa.Column("client_id", sa.Integer(), nullable=False),
         sa.ForeignKeyConstraint(
             ["client_id"],
             ["clients.id"],
@@ -173,7 +173,6 @@ def upgrade():
         ),
         sa.PrimaryKeyConstraint("id"),
     )
-    # ### end Alembic commands ###
     if environment == "production":
         op.execute(f"ALTER TABLE admins SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE affirmations SET SCHEMA {SCHEMA};")
@@ -185,6 +184,9 @@ def upgrade():
         op.execute(f"ALTER TABLE contents SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE clients SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE client_users SET SCHEMA {SCHEMA};")
+    # ### end Alembic commands ###
+
+
 
 
 def downgrade():
@@ -192,8 +194,8 @@ def downgrade():
     op.drop_table("workshops")
     op.drop_table("contents")
     op.drop_table("client_users")
-    op.drop_table("clients")
     op.drop_table("pages")
+    op.drop_table("clients")
     op.drop_table("workshop_types")
     op.drop_table("templates")
     op.drop_table("locations")
