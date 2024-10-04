@@ -45,9 +45,9 @@ def seed_contents():
 def undo_contents():
     if environment == "production":
         db.session.execute(
-            f"TRUNCATE table {SCHEMA}.Contents RESTART IDENTITY CASCADE;"
+            f"TRUNCATE table {SCHEMA}.contents RESTART IDENTITY CASCADE;"
         )
     else:
-        db.session.execute(text("DELETE FROM Contents"))
+        db.session.execute(text("DELETE FROM contents"))
 
     db.session.commit()

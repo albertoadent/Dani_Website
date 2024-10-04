@@ -25,8 +25,8 @@ def seed_admins():
 
 def undo_admins():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.Admins RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.admins RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM Admins"))
+        db.session.execute(text("DELETE FROM admins"))
 
     db.session.commit()

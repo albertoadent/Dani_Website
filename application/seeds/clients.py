@@ -45,8 +45,8 @@ def seed_clients():
 
 def undo_clients():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.Clients RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.clients RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM Clients"))
+        db.session.execute(text("DELETE FROM clients"))
 
     db.session.commit()

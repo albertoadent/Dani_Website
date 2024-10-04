@@ -29,9 +29,9 @@ def seed_locations():
 def undo_locations():
     if environment == "production":
         db.session.execute(
-            f"TRUNCATE table {SCHEMA}.Locations RESTART IDENTITY CASCADE;"
+            f"TRUNCATE table {SCHEMA}.locations RESTART IDENTITY CASCADE;"
         )
     else:
-        db.session.execute(text("DELETE FROM Locations"))
+        db.session.execute(text("DELETE FROM locations"))
 
     db.session.commit()

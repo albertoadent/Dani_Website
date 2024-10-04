@@ -43,9 +43,9 @@ def seed_workshops():
 def undo_workshops():
     if environment == "production":
         db.session.execute(
-            f"TRUNCATE table {SCHEMA}.Workshops RESTART IDENTITY CASCADE;"
+            f"TRUNCATE table {SCHEMA}.workshops RESTART IDENTITY CASCADE;"
         )
     else:
-        db.session.execute(text("DELETE FROM Workshops"))
+        db.session.execute(text("DELETE FROM workshops"))
 
     db.session.commit()
