@@ -77,7 +77,11 @@ class Workshop(*CustomModel):
         db.Integer, db.ForeignKey(add_prefix_for_prod("clients.id")), nullable=False
     )
 
-    workshop_type = db.relationship("WorkshopType", backref="workshop_instances")
+    workshop_type = db.relationship(
+        "WorkshopType",
+        backref="workshop_instances",
+        primaryjoin=f"{add_prefix_for_prod("workshops.workshop_type_id")} == {add_prefix_for_prod("workshop_types.id")}",
+    )
     location = db.relationship("Location")
     client = db.relationship("Client", backref="workshops")
 
