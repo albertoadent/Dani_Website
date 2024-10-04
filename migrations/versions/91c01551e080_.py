@@ -144,7 +144,7 @@ def upgrade():
         sa.Column("page_id", sa.Integer(), nullable=True),
         sa.ForeignKeyConstraint(
             ["page_id"],
-            ["Pages.id"],
+            ["pages.id"],
         ),
         sa.PrimaryKeyConstraint("id"),
         sa.UniqueConstraint("id"),
