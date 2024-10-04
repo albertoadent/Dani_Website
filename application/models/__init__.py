@@ -5,7 +5,7 @@ from .models import (
     Workshop,
     Template,
     Content,
-    Affirmations,
+    Affirmation,
     Location,
     Client,
     ClientUser,

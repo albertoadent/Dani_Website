@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: e853a270e86a
+Revision ID: 91c01551e080
 Revises:
-Create Date: 2024-10-04 02:15:53.296972
+Create Date: 2024-10-04 02:38:46.490567
 
 """
 
@@ -15,7 +15,7 @@ SCHEMA = os.environ.get("SCHEMA")
 
 
 # revision identifiers, used by Alembic.
-revision = "e853a270e86a"
+revision = "91c01551e080"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -74,6 +74,20 @@ def upgrade():
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
+        "Pages",
+        sa.Column("created_at", sa.DateTime(), nullable=False),
+        sa.Column("updated_at", sa.DateTime(), nullable=False),
+        sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
+        sa.Column("is_public", sa.Boolean(), nullable=False),
+        sa.Column("name", sa.String(), nullable=False),
+        sa.Column("template_id", sa.Integer(), nullable=True),
+        sa.ForeignKeyConstraint(
+            ["template_id"],
+            ["templates.id"],
+        ),
+        sa.PrimaryKeyConstraint("id"),
+    )
+    op.create_table(
         "clients",
         sa.Column("created_at", sa.DateTime(), nullable=False),
         sa.Column("updated_at", sa.DateTime(), nullable=False),
@@ -90,21 +104,7 @@ def upgrade():
         sa.Column("location_id", sa.Integer(), nullable=True),
         sa.ForeignKeyConstraint(
             ["location_id"],
-            ["Locations.id"],
-        ),
-        sa.PrimaryKeyConstraint("id"),
-    )
-    op.create_table(
-        "pages",
-        sa.Column("created_at", sa.DateTime(), nullable=False),
-        sa.Column("updated_at", sa.DateTime(), nullable=False),
-        sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
-        sa.Column("is_public", sa.Boolean(), nullable=False),
-        sa.Column("name", sa.String(), nullable=False),
-        sa.Column("template_id", sa.Integer(), nullable=True),
-        sa.ForeignKeyConstraint(
-            ["template_id"],
-            ["Templates.id"],
+            ["locations.id"],
         ),
         sa.PrimaryKeyConstraint("id"),
     )
@@ -122,11 +122,11 @@ def upgrade():
         sa.Column("location_id", sa.Integer(), nullable=True),
         sa.ForeignKeyConstraint(
             ["client_id"],
-            ["Clients.id"],
+            ["clients.id"],
         ),
         sa.ForeignKeyConstraint(
             ["location_id"],
-            ["Locations.id"],
+            ["locations.id"],
         ),
         sa.PrimaryKeyConstraint("id"),
         sa.UniqueConstraint("username"),
@@ -161,15 +161,15 @@ def upgrade():
         sa.Column("client_id", sa.Integer(), nullable=True),
         sa.ForeignKeyConstraint(
             ["client_id"],
-            ["Clients.id"],
+            ["clients.id"],
         ),
         sa.ForeignKeyConstraint(
             ["location_id"],
-            ["Locations.id"],
+            ["locations.id"],
         ),
         sa.ForeignKeyConstraint(
             ["workshop_type_id"],
-            ["WorkshopTypes.id"],
+            ["workshop_types.id"],
         ),
         sa.PrimaryKeyConstraint("id"),
     )
@@ -192,8 +192,8 @@ def downgrade():
     op.drop_table("workshops")
     op.drop_table("contents")
     op.drop_table("client_users")
-    op.drop_table("pages")
     op.drop_table("clients")
+    op.drop_table("Pages")
     op.drop_table("workshop_types")
     op.drop_table("templates")
     op.drop_table("locations")
