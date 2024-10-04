@@ -50,7 +50,7 @@ class WorkshopType(*CustomModel):
     price = db.Column(db.Float, nullable=False)
     time_frame = db.Column(db.Float, nullable=False)
 
-    workshop_instances = db.relationship("Workshop", back_populates="workshop_type")
+    # workshop_instances = db.relationship("Workshop", back_populates="workshop_type")
 
 
 class Location(*CustomModel):
@@ -77,9 +77,9 @@ class Workshop(*CustomModel):
         db.Integer, db.ForeignKey(add_prefix_for_prod("clients.id")), nullable=False
     )
 
-    workshop_type = db.relationship("WorkshopType", back_populates="workshop_instances")
+    workshop_type = db.relationship("WorkshopType", backref="workshop_instances")
     location = db.relationship("Location")
-    client = db.relationship("Client", back_populates="workshops")
+    client = db.relationship("Client", backref="workshops")
 
     @property
     def start(self):
@@ -152,8 +152,8 @@ class Page(*CustomModel):
         db.Integer, db.ForeignKey(add_prefix_for_prod("templates.id")), nullable=False
     )
 
-    template = db.relationship("Template")
-    content = db.relationship("Content", back_populates="page")
+    template = db.relationship("Template", backref="pages")
+    # content = db.relationship("Content", back_populates="page")
 
     def __init__(self, name, template=None, template_id=None, *args, **kwargs):
         if template:
@@ -190,7 +190,7 @@ class Content(Model, *CustomModelWithoutId):
         db.Integer, db.ForeignKey(add_prefix_for_prod("pages.id")), nullable=False
     )
 
-    page = db.relationship("Page", back_populates="content")
+    page = db.relationship("Page", backref="content")
 
     def __init__(self, page_id=None, page=None, *args, **kwargs):
         if page:
@@ -222,7 +222,7 @@ class Client(*CustomModel):
     )
 
     location = db.relationship("Location")
-    workshops = db.relationship("Workshop", back_populates="client")
+    # workshops = db.relationship("Workshop", back_populates="client")
 
 
 class ClientUser(*CustomUserModel):
