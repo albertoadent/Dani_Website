@@ -5,6 +5,16 @@ from sqlalchemy.sql import text
 
 
 def seed_contents():
+
+    Content3 = Content(
+        page=Page.query.filter_by(name="Main").first(),
+        header="Log In Here",
+        sub_header="Sub Header",
+        link_to="/login",
+    )
+    db.session.add(Content3)
+    db.session.commit()
+
     Content1 = Content(
         page=Page.query.filter_by(name="Main").first(),
         header="Counseling Services",
@@ -20,14 +30,7 @@ def seed_contents():
     )
     db.session.add(Content2)
     db.session.commit()
-    Content3 = Content(
-        page=Page.query.filter_by(name="Main").first(),
-        header="Log In Here",
-        sub_header="Sub Header",
-        link_to="/login",
-    )
-    db.session.add(Content3)
-    db.session.commit()
+    
     Content4 = Content(
         page=Page.query.filter_by(name="Main").first(),
         header="Workshops",

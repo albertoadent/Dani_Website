@@ -16,7 +16,7 @@ def validate(data_dict, data, optional=[]):
                 continue
             errors[key] = f"{key} is required"
     if len(errors):
-        return {"message": "Bad Data", "errors": errors}
+        return {"message": "Bad Data", "errors": errors}, 400
     return None
 
 
@@ -29,7 +29,9 @@ def error_404(obj):
 def format_dates(obj):
     for key in obj.keys():
         if "date" in key or "Date" in key:
-            obj[key] = datetime.fromisoformat(obj[key])
+            obj[key] = datetime.strptime(
+                obj[key].replace("Z", ""), "%Y-%m-%dT%H:%M:%S.%f"
+            )
 
 
 def keys_to_snake(obj):

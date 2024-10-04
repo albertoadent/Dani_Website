@@ -5,7 +5,7 @@ from sqlalchemy.sql import text
 
 
 def seed_pages():
-    page1 = Page(name="Main")
+    page1 = Page(name="Main", is_public=True)
     page2 = Page(name="Secondary")
     page3 = Page(name="Alt Main")
     page4 = Page(name="Alt Secondary")
@@ -17,9 +17,7 @@ def seed_pages():
 
 def undo_pages():
     if environment == "production":
-        db.session.execute(
-            f"TRUNCATE table {SCHEMA}.Pages RESTART IDENTITY CASCADE;"
-        )
+        db.session.execute(f"TRUNCATE table {SCHEMA}.Pages RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM Pages"))
 

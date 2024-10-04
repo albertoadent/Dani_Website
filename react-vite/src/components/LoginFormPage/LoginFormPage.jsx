@@ -59,6 +59,7 @@ function LoginFormModal() {
           <label>Username Or Email:</label>
 
           <input
+            className="text-background"
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
@@ -75,6 +76,7 @@ function LoginFormModal() {
 
           <input
             type="password"
+            className="text-background"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required

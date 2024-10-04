@@ -22,15 +22,27 @@ const Navigation = () => {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
+  if (user) {
+    return (
+      <ul className="fixed border-b-2 border-accent top-0 w-full flex justify-between px-8 pt-4 pb-4 text-lg bg-card items-center z-10">
+        <li>
+          <NavLink to="/">
+            <Logo className="text-background" />
+          </NavLink>
+        </li>
+        <li>
+          <ProfileButton />
+        </li>
+      </ul>
+    );
+  }
+
   return (
-    <ul className="flex justify-between px-8 pt-4 pb-4 text-lg bg-card">
+    <ul className="fixed border-b-2 border-accent top-0 w-full flex justify-center px-8 pt-4 pb-4 text-lg bg-card items-center z-10">
       <li>
         <NavLink to="/">
           <Logo className="text-background" />
         </NavLink>
-      </li>
-      <li>
-        <ProfileButton />
       </li>
     </ul>
   );

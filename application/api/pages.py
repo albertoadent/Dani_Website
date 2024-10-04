@@ -37,12 +37,18 @@ p = {"methods": ["POST"]}
 
 @pages.route("", **p)
 def post_page():
-    data = request.get_json()
-    res = validate({"name": str, "isPublic": bool, "templateId": int}, data)
+    data = dict(request.get_json())
+    res = validate(
+        {"name": str, "isPublic": bool, "templateId": int},
+        data,
+        ["isPublic", "templateId"],
+    )
     if res:
         return res
     page = Page(
-        name=data["name"], is_public=data["isPublic"], template_id=data["templateId"]
+        name=data["name"],
+        is_public=data.get("isPublic"),
+        template_id=data.get("templateId"),
     )
     db.session.add(page)
     db.session.commit()
@@ -74,10 +80,14 @@ pu = {"methods": ["PUT"]}
 
 @pages.route("/<int:page_id>", **pu)
 def put_page(page_id):
-    data = request.get_json()
+    data = dict(request.get_json())
 
     try:
-        res = validate({"name": str, "isPublic": bool, "templateId": int}, data)
+        res = validate(
+            {"name": str, "isPublic": bool, "templateId": int},
+            data,
+            ["isPublic", "templateId"],
+        )
 
         if res:
             return res
@@ -88,8 +98,8 @@ def put_page(page_id):
             return error_404(page)
 
         page.name = data["name"]
-        page.is_public = data["isPublic"]
-        page.template_id = data["templateId"]
+        page.is_public = data.get("isPublic") or False
+        page.template_id = data.get("templateId") or page.template_id
         db.session.commit()
         return Page.query.get(page_id).to_json()
     except ValueError:

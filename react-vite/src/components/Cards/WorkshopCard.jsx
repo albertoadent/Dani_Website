@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function MainCard({
+export default function WorkshopCard({
   header,
   subHeader,
   text,
@@ -8,23 +8,11 @@ export default function MainCard({
   index,
   linkTo,
 }) {
-  const rest = `bg-cover rounded-lg lg:p-10 p-2 sm:p-2 h-full w-full`;
-  const className1 = `bg-[url(/green_fram.png)] ${rest}`;
-  const className2 = `bg-[url(/vine_arch.png)]  ${rest}`;
-  const className3 = `bg-[url(/vine_frame.png)]  ${rest}`;
+  let rest = `bg-cover rounded-lg lg:p-10 p-2 sm:p-2 h-full w-full justify-center items-center`;
   const className4 = `bg-[url(/vines.png)]  ${rest}`;
   let className = className4;
-  if (index % 4 == 0) {
-    className = className1;
-  }
-  if (index % 4 == 1) {
-    className = className2;
-  }
-  if (index % 4 == 2) {
-    className = className3;
-  }
 
-  if (imageUrl){
+  if (imageUrl) {
     
   }
 
@@ -39,7 +27,7 @@ export default function MainCard({
         }}
         to={linkTo}
       >
-        <div className="h-full w-full bg-muted border border-input hover:bg-white rounded-lg flex flex-col content-center items-center justify-items-center justify-center">
+        <div className="h-full w-full bg-muted border border-input rounded-lg flex flex-col content-center items-center justify-items-center justify-center">
           {header && (
             <h3 className="text-white text-base md:text-xs font-bold text-center">
               {header}
@@ -53,7 +41,9 @@ export default function MainCard({
               {text}
             </p>
           )}
-          <h1 className="text-popover bg-[var(--muted-foreground)] rounded p-1">CLICK ME</h1>
+          <h1 className="text-popover text-center bg-[var(--muted-foreground)] rounded p-1">
+            SCHEDULE YOUR WORKSHOP
+          </h1>
         </div>
       </Link>
     );

@@ -86,7 +86,14 @@ class Workshop(*CustomModel):
         return self.get_timestamp_breakdown("end_date")
 
     def __init__(
-        self, type=None, start_date=None, workshop_type_id=None,client=None,client_id=None, *args, **kwargs
+        self,
+        type=None,
+        start_date=None,
+        workshop_type_id=None,
+        client=None,
+        client_id=None,
+        *args,
+        **kwargs,
     ):
         duration = 0.0
         if type:
@@ -150,7 +157,12 @@ class Page(*CustomModel):
         elif template_id:
             self.template_id = template_id
         else:
-            template_id = Template.query.filter_by(name=name).first().id
+            t = Template.query.filter_by(name=name).first()
+            if not t:
+                t = Template(name=name)
+                db.session.add(t)
+                db.session.commit()
+            template_id = t.id
 
         super().__init__(name=name, *args, **kwargs)
 
@@ -169,7 +181,7 @@ class Content(Model, *CustomModelWithoutId):
     sub_header = db.Column(db.String, nullable=True)
     text = db.Column(db.String, nullable=True)
     image_url = db.Column(db.String, nullable=True)
-    link_to=db.Column(db.String, nullable=True)
+    link_to = db.Column(db.String, nullable=True)
     page_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("Pages.id")))
 
     page = db.relationship("Page", back_populates="content")
@@ -191,8 +203,8 @@ class Affirmations(*CustomModel):
 
 class Client(*CustomModel):
     __tablename__ = "Clients"
-    first_name = db.Column(db.String, nullable=False)
-    last_name = db.Column(db.String, nullable=False)
+    first_name = db.Column(db.String, nullable=True)
+    last_name = db.Column(db.String, nullable=True)
     phone_number = db.Column(db.Integer, nullable=False)
     email = db.Column(db.String, nullable=False)
     preferred_method_of_communication = db.Column(

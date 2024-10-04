@@ -52,7 +52,7 @@ function ProfileButton() {
 
       {showMenu && (
         <ul
-          className="absolute z-10 bg-card flex flex-col right-0 mr-4 gap-4 shadow-shadow text-base border px-3 py-2 rounded-lg"
+          className="absolute z-10 bg-card flex flex-col right-0 mr-4 gap-4 shadow-shadow text-popover border px-3 py-2 rounded-lg"
           ref={ulRef}
         >
           {user ? (

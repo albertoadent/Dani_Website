@@ -99,10 +99,10 @@ def put_content(content_id):
             remove_file_from_s3(content.image_url)
         content.image_url = urlObj["url"]
 
-    content.header = data.get("header") or content.header
-    content.text = data.get("text") or content.text
-    content.sub_header = data.get("subHeader") or content.sub_header
-    content.link_to = data.get("linkTo") or content.link_to
+    content.header = data.get("header")
+    content.text = data.get("text")
+    content.sub_header = data.get("subHeader")
+    content.link_to = data.get("linkTo")
     db.session.commit()
     return Content.query.get(content_id).to_json()
 

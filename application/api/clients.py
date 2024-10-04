@@ -60,16 +60,59 @@ def post_client():
         if key not in ["address", "city", "state", "country"]
     }
 
+    client = Client.query.filter_by(
+        **keys_to_snake(
+            {
+                key: data.get(key)
+                for key in data
+                if key in ["firstName", "lastName", "email", "phoneNumber"]
+            }
+        )
+    ).first()
+
     location = Location.query.filter_by(**location_data).first()
     if not location:
         location = Location(**location_data)
         db.session.add(location)
         db.session.commit()
 
-    client = Client(**keys_to_snake(client_data), location=location)
-    db.session.add(client)
-    db.session.commit()
+    if not client:
+        client = Client(**keys_to_snake(client_data), location=location)
+        db.session.add(client)
+        db.session.commit()
     return Client.query.get(int(client.id)).to_json()
+
+
+p = {"methods": ["POST"]}
+
+
+@clients.route("exists", **p)
+def client_exists():
+    data = request.get_json()
+    res = validate(
+        {
+            "firstName": str,
+            "lastName": str,
+            "email": str,
+            "phoneNumber": int,
+        },
+        data,
+        ["firstName", "lastName"],
+    )
+    if res:
+        return res
+
+    client_data = {
+        key: data.get(key)
+        for key in data
+        if key in ["firstName", "lastName", "email", "phoneNumber"]
+    }
+
+    client = Client.query.filter_by(**keys_to_snake(client_data)).first()
+    print(client)
+    if not client:
+        return error_404(client)
+    return client.to_json()
 
 
 """
