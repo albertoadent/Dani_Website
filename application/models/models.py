@@ -50,7 +50,7 @@ class WorkshopType(*CustomModel):
     price = db.Column(db.Float, nullable=False)
     time_frame = db.Column(db.Float, nullable=False)
 
-    workshops = db.relationship("Workshop", back_populates="workshop_type")
+    workshop_instances = db.relationship("Workshop", back_populates="workshop_type")
 
 
 class Location(*CustomModel):
@@ -73,7 +73,7 @@ class Workshop(*CustomModel):
     )
     client_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("clients.id")))
 
-    workshop_type = db.relationship("WorkshopType", back_populates="workshops")
+    workshop_type = db.relationship("WorkshopType", back_populates="workshop_instances")
     location = db.relationship("Location")
     client = db.relationship("Client", back_populates="workshops")
 
@@ -87,7 +87,7 @@ class Workshop(*CustomModel):
 
     def __init__(
         self,
-        type=None,
+        workshop_type=None,
         start_date=None,
         workshop_type_id=None,
         client=None,
@@ -96,9 +96,9 @@ class Workshop(*CustomModel):
         **kwargs,
     ):
         duration = 0.0
-        if type:
-            self.workshop_type_id = type.id
-            duration = type.time_frame
+        if workshop_type:
+            self.workshop_type_id = workshop_type.id
+            duration = workshop_type.time_frame
         elif workshop_type_id:
             workshop_type = WorkshopType.query.get(int(workshop_type_id))
             self.workshop_type_id = workshop_type_id
