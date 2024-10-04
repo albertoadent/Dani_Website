@@ -79,11 +79,11 @@ class Workshop(*CustomModel):
 
     workshop_type = db.relationship(
         "WorkshopType",
-        backref="workshop_instances",
-        primaryjoin="workshops.workshop_type_id == workshop_types.id",
+        back_populates="workshop_instances",
+        primaryjoin="Workshop.workshop_type_id == WorkshopType.id",
     )
     location = db.relationship("Location")
-    client = db.relationship("Client", backref="workshops")
+    client = db.relationship("Client", back_populates="workshops")
 
     @property
     def start(self):
@@ -156,7 +156,7 @@ class Page(*CustomModel):
         db.Integer, db.ForeignKey(add_prefix_for_prod("templates.id")), nullable=False
     )
 
-    template = db.relationship("Template", backref="pages")
+    template = db.relationship("Template", back_populates="pages")
     # content = db.relationship("Content", back_populates="page")
 
     def __init__(self, name, template=None, template_id=None, *args, **kwargs):
@@ -194,7 +194,7 @@ class Content(Model, *CustomModelWithoutId):
         db.Integer, db.ForeignKey(add_prefix_for_prod("pages.id")), nullable=False
     )
 
-    page = db.relationship("Page", backref="content")
+    page = db.relationship("Page", back_populates="content")
 
     def __init__(self, page_id=None, page=None, *args, **kwargs):
         if page:
