@@ -141,7 +141,7 @@ class Template(*CustomModel):
 
 
 class Page(*CustomModel):
-    __tablename__ = "Pages"
+    __tablename__ = "pages"
     is_public = db.Column(db.Boolean, nullable=False, default=False)
     name = db.Column(db.String, nullable=False)
     template_id = db.Column(
@@ -182,7 +182,7 @@ class Content(Model, *CustomModelWithoutId):
     text = db.Column(db.String, nullable=True)
     image_url = db.Column(db.String, nullable=True)
     link_to = db.Column(db.String, nullable=True)
-    page_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("Pages.id")))
+    page_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("pages.id")))
 
     page = db.relationship("Page", back_populates="content")
 
