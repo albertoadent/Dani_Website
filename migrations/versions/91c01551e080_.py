@@ -74,7 +74,7 @@ def upgrade():
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
-        "Pages",
+        "pages",
         sa.Column("created_at", sa.DateTime(), nullable=False),
         sa.Column("updated_at", sa.DateTime(), nullable=False),
         sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
@@ -193,7 +193,7 @@ def downgrade():
     op.drop_table("contents")
     op.drop_table("client_users")
     op.drop_table("clients")
-    op.drop_table("Pages")
+    op.drop_table("pages")
     op.drop_table("workshop_types")
     op.drop_table("templates")
     op.drop_table("locations")
