@@ -1,6 +1,7 @@
 from .jsonable import JSONable
 from flask_login import UserMixin
 from .timestamps import Timestamps
+from .prod_ready import PROD
 from .db import db, add_prefix_for_prod
 from .id import ID
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -9,9 +10,9 @@ from datetime import datetime, timedelta
 Model = db.Model
 
 
-CustomModel = (Model, Timestamps, JSONable)
-CustomUserModel = (Model, UserMixin, Timestamps, JSONable)
-CustomModelWithoutId = (Timestamps, JSONable)
+CustomModel = (Model, Timestamps, JSONable, PROD)
+CustomUserModel = (Model, UserMixin, Timestamps, JSONable, PROD)
+CustomModelWithoutId = (Timestamps, JSONable, PROD)
 
 
 """
