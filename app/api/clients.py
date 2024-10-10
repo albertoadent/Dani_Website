@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from .data_validation import validate, error_404, keys_to_snake
-from application.models import Client, Location, db
+from app.models import Client, Location, db
 
 clients = Blueprint("clients", __name__)
 

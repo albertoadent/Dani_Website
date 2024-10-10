@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import Flask
-from application.models import db, WorkshopType, environment, SCHEMA
+from app.models import db, WorkshopType, environment, SCHEMA
 from sqlalchemy.sql import text
 
 

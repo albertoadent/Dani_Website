@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired, ValidationError
 from sqlalchemy import or_
-from application.models import db, Admin
+from app.models import db, Admin
 
 
 def user_exists(form, field):

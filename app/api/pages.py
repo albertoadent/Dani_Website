@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from .data_validation import validate, error_404
-from application.models import Page, db
+from app.models import Page, db
 
 pages = Blueprint("pages", __name__)
 

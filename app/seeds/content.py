@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import Flask
-from application.models import db, Content, Page, environment, SCHEMA
+from app.models import db, Content, Page, environment, SCHEMA
 from sqlalchemy.sql import text
 
 

@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from .data_validation import validate, error_404
 from .aws_upload import upload_file_to_s3, remove_file_from_s3
-from application.models import Content, Page, db
+from app.models import Content, Page, db
 
 contents = Blueprint("contents", __name__)
 

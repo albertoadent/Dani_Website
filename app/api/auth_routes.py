@@ -1,7 +1,7 @@
 from flask import Blueprint, request
-from application.models import Admin, db
-from application.forms.login_form import LoginForm
-from application.forms.signup_form import SignUpForm
+from app.models import Admin, db
+from app.forms.login_form import LoginForm
+from app.forms.signup_form import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
 from sqlalchemy import or_
 

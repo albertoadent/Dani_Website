@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from flask_login import current_user, login_required
-from application.models import Workshop, WorkshopType, Client, db
+from app.models import Workshop, WorkshopType, Client, db
 from datetime import datetime, timedelta
 from .data_validation import validate, error_404
 

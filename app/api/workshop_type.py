@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from application.models import WorkshopType, db
+from app.models import WorkshopType, db
 from .data_validation import validate, error_404
 
 workshop_types = Blueprint("workshopTypes", __name__)
