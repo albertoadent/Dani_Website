@@ -50,6 +50,7 @@ def post_workshop():
     w_type = Workshop(
         workshop_type_id=data["workshopTypeId"],
         start_date=data["startDate"],
+        client_id=client.id
     )
     interfere_workshops = Workshop.query.filter(
         Workshop.start_date < w_type.end_date, Workshop.end_date > w_type.start_date
@@ -121,9 +122,11 @@ d = {"methods": ["DELETE"]}
 
 @workshops.route("/<int:workshop_id>", **d)
 def delete_type(workshop_id):
+
     workshop = Workshop.query.get(workshop_id)
 
-    if error_404(workshop):
+
+    if not workshop:
         return error_404(workshop)
 
     db.session.delete(workshop)

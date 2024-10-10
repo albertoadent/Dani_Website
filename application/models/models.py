@@ -52,7 +52,7 @@ class WorkshopType(*CustomModel):
     price = db.Column(db.Float, nullable=False)
     time_frame = db.Column(db.Float, nullable=False)
 
-    # workshop_instances = db.relationship("Workshop", back_populates="workshop_type")
+    workshops = db.relationship("Workshop", back_populates="type")
 
 
 class Location(*CustomModel):
@@ -81,13 +81,9 @@ class Workshop(*CustomModel):
         db.Integer, db.ForeignKey(add_prefix_for_prod("clients.id")), nullable=False
     )
 
-    workshop_type = db.relationship(
-        "WorkshopType",
-        back_populates="workshop_instances",
-        primaryjoin="Workshop.workshop_type_id == WorkshopType.id",
-    )
     location = db.relationship("Location")
     client = db.relationship("Client", back_populates="workshops")
+    type = db.relationship("WorkshopType",back_populates="workshops")
 
     @property
     def start(self):
@@ -99,22 +95,23 @@ class Workshop(*CustomModel):
 
     def __init__(
         self,
-        workshop_type=None,
+        type=None,
         start_date=None,
         workshop_type_id=None,
         client=None,
         client_id=None,
+        location_id=None,
         *args,
         **kwargs,
     ):
         duration = 0.0
-        if workshop_type:
-            self.workshop_type_id = workshop_type.id
-            duration = workshop_type.time_frame
+        if type:
+            self.workshop_type_id = type.id
+            duration = type.time_frame
         elif workshop_type_id:
-            workshop_type = WorkshopType.query.get(int(workshop_type_id))
+            type = WorkshopType.query.get(int(workshop_type_id))
             self.workshop_type_id = workshop_type_id
-            duration = workshop_type.time_frame
+            duration = type.time_frame
 
         seconds = duration * 60 * 60
 
@@ -126,16 +123,23 @@ class Workshop(*CustomModel):
                 seconds=seconds
             )
             self.start_date = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
+        else:
+            raise ValueError("start_date must be a datetime or a string")
 
         self.end_date = end_date
 
         if client:
             self.client_id = client.id
             self.location_id = client.location_id
+            print("\n\n\n\n","LOCATION ID:",client.location_id,"\n\n\n\n")
         elif client_id:
             client = Client.query.get(int(client_id))
             self.client_id = client_id
+            print("\n\n\n\n","LOCATION ID:",client.location_id,"\n\n\n\n")
             self.location_id = client.location_id
+
+        if location_id:
+            self.location_id = location_id
 
         super().__init__(*args, **kwargs)
 
@@ -152,6 +156,8 @@ class Template(*CustomModel):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     name = db.Column(db.String, nullable=False)
 
+    pages = db.relationship("Page", back_populates="template")
+
 
 class Page(*CustomModel):
     __tablename__ = "pages"
@@ -163,7 +169,7 @@ class Page(*CustomModel):
     )
 
     template = db.relationship("Template", back_populates="pages")
-    # content = db.relationship("Content", back_populates="page")
+    content = db.relationship("Content", back_populates= "page")
 
     def __init__(self, name, template=None, template_id=None, *args, **kwargs):
         if template:
@@ -176,7 +182,7 @@ class Page(*CustomModel):
                 t = Template(name=name)
                 db.session.add(t)
                 db.session.commit()
-            template_id = t.id
+            self.template_id = t.id
 
         super().__init__(name=name, *args, **kwargs)
 
@@ -235,7 +241,7 @@ class Client(*CustomModel):
     )
 
     location = db.relationship("Location")
-    # workshops = db.relationship("Workshop", back_populates="client")
+    workshops = db.relationship("Workshop", back_populates="client",cascade="all, delete-orphan")
 
 
 class ClientUser(*CustomUserModel):

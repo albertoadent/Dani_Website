@@ -24,8 +24,7 @@ export default function MainCard({
     className = className3;
   }
 
-  if (imageUrl){
-    
+  if (imageUrl) {
   }
 
   if (linkTo) {
@@ -53,7 +52,9 @@ export default function MainCard({
               {text}
             </p>
           )}
-          <h1 className="text-popover bg-[var(--muted-foreground)] rounded p-1">CLICK ME</h1>
+          <h1 className="text-popover bg-[var(--muted-foreground)] rounded p-1">
+            CLICK ME
+          </h1>
         </div>
       </Link>
     );

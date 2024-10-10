@@ -38,12 +38,11 @@ application.register_blueprint(pages, url_prefix="/api/pages")
 application.register_blueprint(contents, url_prefix="/api/content")
 application.register_blueprint(clients, url_prefix="/api/clients")
 
-db.init_app(application)
+db.init_app(app=application)
 Migrate(application, db)
 
 # Application Security
 CORS(application)
-
 
 @application.before_request
 def https_redirect():

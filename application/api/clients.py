@@ -186,9 +186,13 @@ d = {"methods": ["DELETE"]}
 
 @clients.route("/<int:client_id>", **d)
 def delete_client(client_id):
+    print("\n\n\n\n")
+    print(client_id)
     client = Client.query.get(client_id)
+    print(client)
+    print("\n\n\n\n")
 
-    if error_404(client):
+    if not client:
         return error_404(client)
 
     db.session.delete(client)

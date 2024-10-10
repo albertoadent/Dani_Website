@@ -184,7 +184,17 @@ export default function ClientForm() {
   }
 
   function handleDeleteClient() {
-    dispatch(deleteClient(client.id));
+    dispatch(deleteClient());
+    setFirstName("")
+    setLastName("")
+    setEmail(""),
+    setMethod("email"),
+    setAddress("")
+    setCity("")
+    setCountry("")
+    setState("")
+    setPhoneNumber(null)
+    setNewClient(null)
   }
 
   return (

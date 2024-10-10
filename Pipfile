@@ -35,6 +35,9 @@ urllib3 = "==1.26.20"
 werkzeug = "==2.2.2"
 wtforms = "==3.0.1"
 zipp = "==3.17.0"
+pylint = "*"
+pylint-flask = "*"
+pylint-flask-sqlalchemy = "*"
 
 [dev-packages]
 

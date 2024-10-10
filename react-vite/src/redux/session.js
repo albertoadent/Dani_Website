@@ -88,8 +88,9 @@ export const postClient = (clientData) => async (dispatch) => {
   dispatch(setClient(exists));
   return exists;
 };
-export const deleteClient = (clientId) => async (dispatch) => {
-  const exists = await del("/clients/" + clientId);
+export const deleteClient = () => async (dispatch, getState) => {
+  const state = getState()
+  const exists = await del("/clients/" + Number(state.session.client.id));
   dispatch(removeClient());
   return exists;
 };

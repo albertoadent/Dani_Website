@@ -11,12 +11,12 @@ def seed_workshops():
     ceo = Client.query.filter_by(first_name="Maya").first()
 
     queerness = Workshop(
-        workshop_type=WorkshopType.query.filter_by(type="Queerness 101").first(),
+        type=WorkshopType.query.filter_by(type="Queerness 101").first(),
         start_date="2025-10-09 14:30:00",
         client=kid,
     )
     how_to_support = Workshop(
-        workshop_type=WorkshopType.query.filter_by(
+        type=WorkshopType.query.filter_by(
             type="How to support your LGBTQIA kid"
         ).first(),
         start_date="2025-11-01 14:30:00",
@@ -24,13 +24,13 @@ def seed_workshops():
     )
 
     sex_ed = Workshop(
-        workshop_type=WorkshopType.query.filter_by(type="Sex-Ed").first(),
+        type=WorkshopType.query.filter_by(type="Sex-Ed").first(),
         start_date="2025-10-11 14:30:00",
         client=teacher,
     )
 
     leadership = Workshop(
-        workshop_type=WorkshopType.query.filter_by(type="Being a Leader").first(),
+        type=WorkshopType.query.filter_by(type="Being a Leader").first(),
         start_date="2025-10-10 14:30:00",
         client=ceo,
     )
