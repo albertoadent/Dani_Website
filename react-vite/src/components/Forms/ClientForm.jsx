@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteClient,
@@ -31,11 +31,33 @@ function InputField({
 }
 
 export default function ClientForm() {
+  const placeholderFormat = (str) =>
+    `${str}`
+      .padEnd(10, "_")
+      .split("")
+      .map((char, index) => {
+        if (index == 0) {
+          return "(" + char;
+        }
+        if (index == 2) {
+          return char + ")-";
+        }
+        if (index == 5) {
+          return char + "-";
+        }
+        return char;
+      })
+      .join("");
   const client = useSelector((state) => state.session.client);
 
   const [firstName, setFirstName] = useState(client?.firstName);
   const [lastName, setLastName] = useState(client?.lastName);
   const [phoneNumber, setPhoneNumber] = useState(client?.phoneNumber);
+  const [numberPlaceholder, setNumberPlaceholder] = useState(
+    client?.phoneNumber
+      ? placeholderFormat(client?.phoneNumber)
+      : "(___)-___-____"
+  );
   const [email, setEmail] = useState(client?.email);
   const [address, setAddress] = useState(client?.location?.address);
   const [city, setCity] = useState(client?.location?.city);
@@ -49,7 +71,7 @@ export default function ClientForm() {
 
   async function handleReturningClient() {
     if (!(phoneNumber && email)) {
-      setError("Phone Number and email are required");
+      setError("Please fill in the required fields");
       setNewClient(true);
       return;
     } else {
@@ -95,6 +117,43 @@ export default function ClientForm() {
     }
   }
 
+  function handleSetNumber(e) {
+    const inputNum = e.target.value;
+
+    if (inputNum.length > 1) {
+      if (inputNum.length > 10) {
+        setPhoneNumber(Number(inputNum.slice(inputNum.length - 10)));
+        setNumberPlaceholder(
+          placeholderFormat(inputNum.slice(inputNum.length - 10))
+        );
+      } else {
+        setPhoneNumber(Number(inputNum));
+        setNumberPlaceholder(placeholderFormat(inputNum));
+      }
+
+      return;
+    }
+
+    const digits = new Array(10).fill(true);
+    if (!digits[inputNum]) {
+      return;
+    }
+    const numString = String(numberPlaceholder)
+      .replace(/[()-]/g, "")
+      .replace("_", inputNum)
+      .replace(/_/g, "");
+
+    setPhoneNumber(Number(numString));
+    setNumberPlaceholder(placeholderFormat(numString));
+  }
+
+  function handleBackspace(e) {
+    if (e.key === "Backspace") {
+      setNumberPlaceholder((prev) => prev.replace(/(\d)(?!.*\d)/, "_"));
+      setPhoneNumber((prev) => prev / 10);
+    }
+  }
+
   if (!client) {
     return (
       <div className="flex flex-col gap-2 w-96 bg-[var(--muted-foreground)] rounded-xl p-10">
@@ -108,12 +167,18 @@ export default function ClientForm() {
           value={lastName}
           setValue={setLastName}
         />
-        <InputField
-          label={"Phone number (required)"}
-          value={phoneNumber}
-          setValue={setPhoneNumber}
-          inputType="number"
-        />
+        <div>
+          <h3>{"Phone number (required)"}</h3>
+          <input
+            placeholder={numberPlaceholder}
+            value={() => null}
+            onChange={handleSetNumber}
+            className="text-popover bg-muted focus:text-popover focus:bg-muted"
+            style={{ caretColor: "transparent" }}
+            onKeyDown={handleBackspace}
+            autoComplete="tel"
+          />
+        </div>
         <InputField
           label={"Email (required)"}
           value={email}

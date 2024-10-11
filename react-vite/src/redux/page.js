@@ -45,6 +45,13 @@ export const fetchPage = (pageId) => async (dispatch) => {
   dispatch(loadOne(data));
   return data;
 };
+export const fetchPages = () => async (dispatch) => {
+  const data = await get(`/pages`);
+  data.forEach((element) => {
+    dispatch(loadOne(element));
+  });
+  return data;
+};
 export const postPage = (pageData) => async (dispatch) => {
   const data = await jsonPost(`/pages`, pageData);
   dispatch(loadOne(data));
@@ -56,7 +63,7 @@ export const putPage = (pageData) => async (dispatch) => {
   return data;
 };
 export const deletePage = (pageId) => async (dispatch) => {
-  const data = await del(`/pages`, pageId);
+  const data = await del(`/pages/${pageId}`);
   dispatch(unloadOne(pageId));
   return data;
 };

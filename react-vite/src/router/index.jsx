@@ -5,6 +5,7 @@ import Layout from "./Layout";
 import Home from "../components/Home/Home";
 import Workshops from "../components/Workshops/Workshops";
 import WorkshopForm from "../components/Forms/WorkshopForm";
+import DisplayPages from "../Pages/DisplayPages";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
             element: <WorkshopForm />,
           },
         ],
+      },
+      {
+        path: "pages",
+        element: <DisplayPages />,
       },
     ],
   },
