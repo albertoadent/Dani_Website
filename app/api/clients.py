@@ -55,7 +55,7 @@ def post_client():
     }
 
     client_data = {
-        key: data.get(key)
+        key: str(data.get(key))
         for key in data
         if key not in ["address", "city", "state", "country"]
     }
@@ -103,7 +103,7 @@ def client_exists():
         return res
 
     client_data = {
-        key: data.get(key)
+        key: str(data.get(key))
         for key in data
         if key in ["firstName", "lastName", "email", "phoneNumber"]
     }
@@ -148,7 +148,7 @@ def put_client(client_id):
     }
 
     client_data = {
-        key: data.get(key)
+        key: str(data.get(key))
         for key in data
         if key not in ["address", "city", "state", "country"]
     }
