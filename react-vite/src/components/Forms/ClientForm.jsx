@@ -99,12 +99,12 @@ export default function ClientForm() {
     return (
       <div className="flex flex-col gap-2 w-96 bg-[var(--muted-foreground)] rounded-xl p-10">
         <InputField
-          label={"First name"}
+          label={"First name (required)"}
           value={firstName}
           setValue={setFirstName}
         />
         <InputField
-          label={"Last name"}
+          label={"Last name (required)"}
           value={lastName}
           setValue={setLastName}
         />
@@ -134,6 +134,19 @@ export default function ClientForm() {
         </button>
         {newClient && (
           <div className="flex flex-col gap-2">
+            <div className="w-full flex flex-col items-center">
+              <h1>Preferred Method of Communication</h1>
+              <select
+                value={client?.preferredMethodOfCommunication || method}
+                onChange={(e) => setMethod(e.target.value)}
+                id="method"
+                className="bg-accent justify-center w-64 text-center px-0"
+              >
+                <option value="email">Email</option>
+                <option value="call">Call</option>
+                <option value="text">Text</option>
+              </select>
+            </div>
             <InputField
               label={"Address (required)"}
               value={address}
@@ -162,19 +175,6 @@ export default function ClientForm() {
             </button>
           </div>
         )}
-        <div className="w-full flex flex-col items-center">
-          <h1>Preferred Method of Communication</h1>
-          <select
-            value={client?.preferredMethodOfCommunication || method}
-            onChange={(e) => setMethod(e.target.value)}
-            id="method"
-            className="bg-accent justify-center w-64 text-center px-0"
-          >
-            <option value="email">Email</option>
-            <option value="call">Call</option>
-            <option value="text">Text</option>
-          </select>
-        </div>
       </div>
     );
   }
@@ -185,16 +185,14 @@ export default function ClientForm() {
 
   function handleDeleteClient() {
     dispatch(deleteClient());
-    setFirstName("")
-    setLastName("")
-    setEmail(""),
-    setMethod("email"),
-    setAddress("")
-    setCity("")
-    setCountry("")
-    setState("")
-    setPhoneNumber(null)
-    setNewClient(null)
+    setFirstName("");
+    setLastName("");
+    setEmail(""), setMethod("email"), setAddress("");
+    setCity("");
+    setCountry("");
+    setState("");
+    setPhoneNumber(null);
+    setNewClient(null);
   }
 
   return (

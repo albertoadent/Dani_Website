@@ -1,4 +1,4 @@
-import { get, post, jsonPost, del } from "./customFetch";
+import { post, jsonPost, del } from "./customFetch";
 
 const SET_USER = "session/setUser";
 const REMOVE_USER = "session/removeUser";
@@ -79,7 +79,7 @@ export const thunkLogout = () => async (dispatch) => {
 };
 
 export const getClient = (clientData) => async (dispatch) => {
-  const exists = await post("/clients/exists", clientData)
+  const exists = await jsonPost("/clients/exists", clientData)
   dispatch(setClient(exists));
   return exists;
 };

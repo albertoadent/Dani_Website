@@ -75,7 +75,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('first_name', sa.String(), nullable=True),
     sa.Column('last_name', sa.String(), nullable=True),
-    sa.Column('phone_number', sa.Integer(), nullable=False),
+    sa.Column('phone_number', sa.String(), nullable=False),
     sa.Column('email', sa.String(), nullable=False),
     sa.Column('preferred_method_of_communication', sa.Enum('call', 'text', 'email', name='preferred_type'), nullable=True),
     sa.Column('location_id', sa.Integer(), nullable=False),
