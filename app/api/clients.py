@@ -37,7 +37,7 @@ def post_client():
             "firstName": str,
             "lastName": str,
             "email": str,
-            "phoneNumber": int,
+            "phoneNumber": str,
             "address": str,
             "city": str,
             "state": str,

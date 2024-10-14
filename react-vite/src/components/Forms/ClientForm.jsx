@@ -85,7 +85,7 @@ export default function ClientForm() {
         getClient({
           firstName,
           lastName,
-          phoneNumber: Number(phoneNumber),
+          phoneNumber: `${phoneNumber}`,
           email,
         })
       );
@@ -105,7 +105,7 @@ export default function ClientForm() {
         postClient({
           firstName,
           lastName,
-          phoneNumber: Number(phoneNumber),
+          phoneNumber: `${phoneNumber}`,
           email,
           address,
           city,
