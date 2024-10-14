@@ -84,7 +84,7 @@ export function EditPage() {
     }
   }, [dispatch]);
 
-  const content = [...(page?.content || []), null];
+  const content = [...(page?.content?.sort((a,b)=>Number(a.id.split("_")[1])-Number(b.id.split("_")[1])) || []), null];
 
   function handleUpdateTemplateId() {
     if (templateName != originalTemplateName) {
