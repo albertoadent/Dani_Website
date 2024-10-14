@@ -1,8 +1,9 @@
-/* TEMPLATE 1 */
+/* TEMPLATE main */
 
 import MainCard from "../Cards/MainCard";
 
 export default function MainTemplate({ page }) {
+  
   return (
     <div className="grid grid-cols-2 gap-y-10 gap-x-2 p-10">
       {page?.content &&

@@ -6,11 +6,9 @@ from sqlalchemy.sql import text
 
 def seed_templates():
     main = Template(name="Main")
-    secondary = Template(name="Secondary")
-    alt_main = Template(name="Alt Main")
-    alt_secondary = Template(name="Alt Secondary")
+    workshops = Template(name="workshops")
 
-    db.session.add_all([main, secondary, alt_main, alt_secondary])
+    db.session.add_all([main, workshops])
 
     db.session.commit()
 

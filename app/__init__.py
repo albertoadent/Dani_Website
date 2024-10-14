@@ -13,6 +13,7 @@ from .api.pages import pages
 from .api.content import contents
 from .api.clients import clients
 from .api.auth_routes import auth_routes
+from .api.templates import templates
 
 User = Admin
 app = Flask(__name__, static_folder="../react-vite/dist", static_url_path="/")
@@ -31,18 +32,20 @@ def load_user(id):
 app.cli.add_command(seed_commands)
 
 app.config.from_object(Config)
-app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.register_blueprint(auth_routes, url_prefix="/api/auth")
 app.register_blueprint(workshop_types, url_prefix="/api/workshopTypes")
 app.register_blueprint(workshops, url_prefix="/api/workshops")
 app.register_blueprint(pages, url_prefix="/api/pages")
 app.register_blueprint(contents, url_prefix="/api/content")
 app.register_blueprint(clients, url_prefix="/api/clients")
+app.register_blueprint(templates, url_prefix="/api/templates")
 
 db.init_app(app=app)
 Migrate(app, db)
 
 # app Security
 CORS(app)
+
 
 @app.before_request
 def https_redirect():

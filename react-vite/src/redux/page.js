@@ -1,3 +1,4 @@
+import { createSelector } from "reselect";
 import { get, jsonPost, jsonPut, formPost, formPut, del } from "./customFetch";
 
 /* TYPES */
@@ -34,7 +35,7 @@ const editContent = (content) => ({
   content,
 });
 const removeContent = (contentId) => ({
-  type: LOAD_CONTENT,
+  type: DELETE_CONTENT,
   contentId,
 });
 
@@ -58,7 +59,7 @@ export const postPage = (pageData) => async (dispatch) => {
   return data;
 };
 export const putPage = (pageData) => async (dispatch) => {
-  const data = await jsonPut(`/pages`, pageData);
+  const data = await jsonPut(`/pages/${pageData.id}`, pageData);
   dispatch(editPage(data));
   return data;
 };
@@ -68,17 +69,20 @@ export const deletePage = (pageId) => async (dispatch) => {
   return data;
 };
 export const postContent = (pageId, content) => async (dispatch) => {
-  const data = await formPost(`/content`, { ...content, pageId });
-  dispatch(loadContent(data));
+  const data = await formPost(`/content`, {
+    ...content,
+    pageId: Number(pageId),
+  });
+  dispatch(loadContent(pageId, data));
   return data;
 };
 export const putContent = (content) => async (dispatch) => {
-  const data = await formPut(`/content${content.id}`, content);
+  const data = await formPut(`/content/${content.id}`, content);
   dispatch(editContent(data));
   return data;
 };
 export const deleteContent = (contentId) => async (dispatch) => {
-  const data = await del(`/content${contentId}`);
+  const data = await del(`/content/${contentId}`);
   dispatch(removeContent(contentId));
   return data;
 };
@@ -98,6 +102,14 @@ export const unpublishPage = (pageId) => async (dispatch) => {
 export const selectPageById = (pageId) => (state) => state.pages[pageId];
 export const selectPageContentByPageId = (pageId) => (state) =>
   state.pages[pageId]?.content;
+export const selectPagesArray = createSelector(
+  [(state) => state.pages],
+  (pages) => Object.values(pages)
+);
+export const selectPageByName = createSelector(
+  [selectPagesArray, (state, pageName) => pageName],
+  (pages, pageName) => pages?.find(({ name }) => name.toLowerCase() == pageName)
+);
 
 /* REDUCER */
 
@@ -116,6 +128,7 @@ function pageReducer(state = initialState, action) {
     case LOAD_CONTENT: {
       const { pageId, content } = action;
       const page = state[pageId];
+      console.log("\n\n\nIN REUX:\n", page, "\n\n\n");
       return {
         ...state,
         [pageId]: {

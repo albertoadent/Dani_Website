@@ -84,7 +84,7 @@ class Workshop(*CustomModel):
 
     location = db.relationship("Location")
     client = db.relationship("Client", back_populates="workshops")
-    type = db.relationship("WorkshopType",back_populates="workshops")
+    type = db.relationship("WorkshopType", back_populates="workshops")
 
     @property
     def start(self):
@@ -132,11 +132,11 @@ class Workshop(*CustomModel):
         if client:
             self.client_id = client.id
             self.location_id = client.location_id
-            print("\n\n\n\n","LOCATION ID:",client.location_id,"\n\n\n\n")
+            print("\n\n\n\n", "LOCATION ID:", client.location_id, "\n\n\n\n")
         elif client_id:
             client = Client.query.get(int(client_id))
             self.client_id = client_id
-            print("\n\n\n\n","LOCATION ID:",client.location_id,"\n\n\n\n")
+            print("\n\n\n\n", "LOCATION ID:", client.location_id, "\n\n\n\n")
             self.location_id = client.location_id
 
         if location_id:
@@ -170,7 +170,9 @@ class Page(*CustomModel):
     )
 
     template = db.relationship("Template", back_populates="pages")
-    content = db.relationship("Content", back_populates= "page")
+    content = db.relationship(
+        "Content", back_populates="page", cascade="all, delete-orphan"
+    )
 
     def __init__(self, name, template=None, template_id=None, *args, **kwargs):
         if template:
@@ -192,7 +194,10 @@ def gen_content_index(page_id):
     page = Page.query.get(int(page_id))
     if page is None:
         raise ValueError(f"Page with id {page_id} does not exist.")
-    return f"{page_id}_{len(page.content)}"
+
+    contentIds = [int(content.id.split("_")[1]) for content in page.content]
+
+    return f"{page_id}_{max(contentIds)+1 if contentIds else 1}"
 
 
 class Content(Model, *CustomModelWithoutId):
@@ -242,7 +247,9 @@ class Client(*CustomModel):
     )
 
     location = db.relationship("Location")
-    workshops = db.relationship("Workshop", back_populates="client",cascade="all, delete-orphan")
+    workshops = db.relationship(
+        "Workshop", back_populates="client", cascade="all, delete-orphan"
+    )
 
 
 class ClientUser(*CustomUserModel):

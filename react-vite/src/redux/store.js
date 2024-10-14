@@ -8,11 +8,13 @@ import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import pageReducer from "./page";
 import workshopTypeReducer from "./workshops";
+import templateReducer from "./templates";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   pages: pageReducer,
   workshopTypes: workshopTypeReducer,
+  templates: templateReducer,
 });
 
 let enhancer;

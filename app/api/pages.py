@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from .data_validation import validate, error_404
-from app.models import Page, db
+from app.models import Page, Template, db
 
 pages = Blueprint("pages", __name__)
 
@@ -97,9 +97,22 @@ def put_page(page_id):
         if error_404(page):
             return error_404(page)
 
+        page = Page.query.get(page_id)
+
         page.name = data["name"]
         page.is_public = data.get("isPublic") or False
         page.template_id = data.get("templateId") or page.template_id
+
+        if data.get("templateName"):
+            temp = Template.query.filter_by(name=data["templateName"]).first()
+            if not temp:
+                temp = Template(name=data["templateName"])
+            db.session.add(temp)
+            db.session.commit()
+            temp = Template.query.filter_by(name=data["templateName"]).first()
+            page.template_id = temp.id
+            db.session.commit()
+
         db.session.commit()
         return Page.query.get(page_id).to_json()
     except ValueError:

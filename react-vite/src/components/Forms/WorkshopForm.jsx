@@ -69,7 +69,7 @@ function WorkshopConfirmationModal({
             })
             .join(" ")}{" "}
         </p>
-        <p className="text-center"> 
+        <p className="text-center">
           The workshop will last{" "}
           {duration == 1 ? duration + " hour" : duration + " hours"}
         </p>
@@ -159,11 +159,11 @@ export default function WorkshopForm() {
         onSubmit={handleConfirm}
       />
     );
-
   }
 
   useEffect(() => {
     dispatch(fetchWorkshopType(workshopTypeId));
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [dispatch, workshopTypeId]);
 
   return (

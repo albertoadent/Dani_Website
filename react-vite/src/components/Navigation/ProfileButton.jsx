@@ -5,7 +5,7 @@ import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem.jsx";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function ProfileButton() {
   const navigate = useNavigate();
@@ -62,6 +62,12 @@ function ProfileButton() {
                   <span>{user?.name || "No name"}</span>
                   <span>{user.email}</span>
                 </div>
+              </li>
+
+              <li>
+                <NavLink onClick={closeMenu} to={"/pages"}>
+                  Manage Pages
+                </NavLink>
               </li>
 
               <li className="cursor-pointer">

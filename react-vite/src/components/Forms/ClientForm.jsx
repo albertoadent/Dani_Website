@@ -24,6 +24,9 @@ function InputField({
         className={inputClassName}
         value={value}
         onChange={(e) => setValue(e.target.value)}
+        onClick={(e) =>
+          e.target.scrollIntoView({ behavior: "smooth", block: "center" })
+        }
       />
       {error && <p>{error}</p>}
     </div>
@@ -177,6 +180,9 @@ export default function ClientForm() {
             style={{ caretColor: "transparent" }}
             onKeyDown={handleBackspace}
             autoComplete="tel"
+            onClick={(e) =>
+              e.target.scrollIntoView({ behavior: "smooth", block: "center" })
+            }
           />
         </div>
         <InputField
@@ -206,6 +212,12 @@ export default function ClientForm() {
                 onChange={(e) => setMethod(e.target.value)}
                 id="method"
                 className="bg-accent justify-center w-64 text-center px-0"
+                onClick={(e) =>
+                  e.target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                  })
+                }
               >
                 <option value="email">Email</option>
                 <option value="call">Call</option>
